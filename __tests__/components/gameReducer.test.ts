@@ -1,4 +1,4 @@
-import { Tile } from "@/models/tiles";
+import { Tile } from "@/models/tile";
 import gameReducer, { initialState } from "@/reducers/gameReducer";
 import { act, renderHook } from "@testing-library/react";
 import { useReducer } from "react";
