@@ -11,6 +11,7 @@
     "test": "jest --watch"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "next": "15.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -20,6 +21,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "@types/jest": "^29.5.14",
+    "@types/lodash": "^4.17.13",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

@@ -1,14 +1,16 @@
-import { Tile } from "@/models/tile";
+import { tileCountPerDimension } from "@/constants";
+import { Tile, TileMap } from "@/models/tile";
+import { isNil } from "lodash";
 import { uid } from "uid";
 
-type State = { board: string[][]; tiles: { [id: string]: Tile } };
-type Action = { type: "create_tile"; tile: Tile };
+type State = { board: string[][]; tiles: TileMap };
+type Action = { type: "create_tile"; tile: Tile } | { type: "move_up" } | { type: "move_down" };
 
-function createBoard(tileCountPerDimension: number = 4) {
+function createBoard() {
   const board: string[][] = [];
 
   for (let i = 0; i < tileCountPerDimension; i++) {
-    board[i] = new Array(tileCountPerDimension).fill(undefined);
+    board[i] = new Array(tileCountPerDimension).fill(null);
   }
 
   return board;
@@ -22,6 +24,12 @@ export default function gameReducer(state: State = initialState, action: Action)
       const tileId = uid();
       const [x, y] = action.tile.position;
       const newBoard = JSON.parse(JSON.stringify(state.board));
+
+      // the board is an array of arrays
+      // each array item in the board represents the y-axis
+      // each member in the array item of the board represents the x-axis
+      // the index position of the array item is the y-axis coordinate
+      // the index position of the member in the array item is the x-axis coordinate
       newBoard[y][x] = tileId;
 
       return {
@@ -31,6 +39,61 @@ export default function gameReducer(state: State = initialState, action: Action)
           ...state.tiles,
           [tileId]: action.tile,
         },
+      };
+    }
+
+    case "move_up": {
+      const newBoard = createBoard();
+      const newTiles: TileMap = {};
+
+      for (let x = 0; x < tileCountPerDimension; x++) {
+        let newY = 0; // top most
+
+        for (let y = 0; y < tileCountPerDimension; y++) {
+          const tileId = state.board[y][x];
+          if (!isNil(tileId)) {
+            newBoard[newY][x] = tileId;
+            newTiles[tileId] = {
+              ...state.tiles[tileId],
+              position: [x, newY],
+            };
+            newY++;
+          }
+        }
+      }
+
+      return {
+        ...state,
+        board: newBoard,
+        tiles: newTiles,
+      };
+    }
+
+    case "move_down": {
+      const newBoard = createBoard();
+      const newTiles: TileMap = {};
+
+      for (let x = 0; x < tileCountPerDimension; x++) {
+        let newY = tileCountPerDimension - 1; // bottom most
+
+        for (let y = 0; y < tileCountPerDimension; y++) {
+          const tileId = state.board[y][x];
+
+          if (!isNil(tileId)) {
+            newBoard[newY][x] = tileId;
+            newTiles[tileId] = {
+              ...state.tiles[tileId],
+              position: [x, newY],
+            };
+            newY--;
+          }
+        }
+      }
+
+      return {
+        ...state,
+        board: newBoard,
+        tiles: newTiles,
       };
     }
 
