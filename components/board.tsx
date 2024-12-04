@@ -57,7 +57,7 @@ export default function Board() {
       dispatch({
         type: "create_tile",
         tile: {
-          position: [0, 2],
+          position: [1, 1],
           value: 2,
         },
       });
