@@ -42,7 +42,7 @@ export default function gameReducer(state: State = initialState, action: Action)
         board: newBoard,
         tiles: {
           ...state.tiles,
-          [tileId]: action.tile,
+          [tileId]: { id: tileId, ...action.tile },
         },
       };
     }
@@ -63,6 +63,12 @@ export default function gameReducer(state: State = initialState, action: Action)
           if (!isNil(tileId)) {
             if (previousTile?.value === currentTile.value) {
               // both of these tiles need to be stacked on top of each other
+
+              newTiles[previousTile.id as string] = {
+                ...previousTile,
+                value: previousTile.value * 2,
+              };
+
               newTiles[tileId] = {
                 ...currentTile,
                 position: [x, newY - 1],
@@ -107,6 +113,12 @@ export default function gameReducer(state: State = initialState, action: Action)
           if (!isNil(tileId)) {
             if (previousTile?.value === currentTile.value) {
               // both of these tiles need to be stacked on top of each other
+
+              newTiles[previousTile.id as string] = {
+                ...previousTile,
+                value: previousTile.value * 2,
+              };
+
               newTiles[tileId] = {
                 ...currentTile,
                 position: [x, newY + 1],
@@ -151,6 +163,12 @@ export default function gameReducer(state: State = initialState, action: Action)
           if (!isNil(tileId)) {
             if (previousTile?.value === currentTile.value) {
               // both of these tiles need to be stacked on top of each other
+
+              newTiles[previousTile.id as string] = {
+                ...previousTile,
+                value: previousTile.value * 2,
+              };
+
               newTiles[tileId] = {
                 ...currentTile,
                 position: [newX - 1, y],
@@ -195,6 +213,12 @@ export default function gameReducer(state: State = initialState, action: Action)
           if (!isNil(tileId)) {
             if (previousTile?.value === currentTile.value) {
               // both of these tiles need to be stacked on top of each other
+
+              newTiles[previousTile.id as string] = {
+                ...previousTile,
+                value: previousTile.value * 2,
+              };
+
               newTiles[tileId] = {
                 ...currentTile,
                 position: [newX + 1, y],
