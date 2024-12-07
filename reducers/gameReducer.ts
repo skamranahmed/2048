@@ -3,7 +3,7 @@ import { Tile, TileMap } from "@/models/tile";
 import { flattenDeep, isNil } from "lodash";
 import { uid } from "uid";
 
-type State = { board: string[][]; tiles: TileMap };
+type State = { board: string[][]; tiles: TileMap; tilesById: string[] };
 type Action =
   | { type: "create_tile"; tile: Tile }
   | { type: "move_up" }
@@ -22,7 +22,7 @@ function createBoard() {
   return board;
 }
 
-export const initialState: State = { board: createBoard(), tiles: {} };
+export const initialState: State = { board: createBoard(), tiles: {}, tilesById: [] };
 
 export default function gameReducer(state: State = initialState, action: Action) {
   switch (action.type) {
@@ -42,6 +42,7 @@ export default function gameReducer(state: State = initialState, action: Action)
       return {
         ...state,
         tiles: newTiles,
+        tilesById: Object.keys(newTiles),
       };
     }
 
@@ -64,6 +65,7 @@ export default function gameReducer(state: State = initialState, action: Action)
           ...state.tiles,
           [tileId]: { id: tileId, ...action.tile },
         },
+        tilesById: [...state.tilesById, tileId],
       };
     }
 
@@ -126,7 +128,7 @@ export default function gameReducer(state: State = initialState, action: Action)
 
         let previousTile: Tile | undefined;
 
-        for (let y = 0; y < tileCountPerDimension; y++) {
+        for (let y = tileCountPerDimension - 1; y >= 0; y--) {
           const tileId = state.board[y][x];
           const currentTile = state.tiles[tileId];
 
@@ -226,7 +228,7 @@ export default function gameReducer(state: State = initialState, action: Action)
 
         let previousTile: Tile | undefined;
 
-        for (let x = 0; x < tileCountPerDimension; x++) {
+        for (let x = tileCountPerDimension - 1; x >= 0; x--) {
           const tileId = state.board[y][x];
           const currentTile = state.tiles[tileId];
 

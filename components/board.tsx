@@ -6,7 +6,7 @@ import { mergeAnimationDuration } from "@/constants";
 import { GameContext } from "@/context/gameContext";
 
 export default function Board() {
-  const { appendRandomTile, gameState, dispatch } = useContext(GameContext);
+  const { appendRandomTile, getTiles, dispatch } = useContext(GameContext);
   const initialized = useRef(false);
 
   const handleKeyDown = useCallback(
@@ -48,8 +48,8 @@ export default function Board() {
   };
 
   const renderTiles = () => {
-    return Object.values(gameState.tiles).map((tile: TileModel, index: number) => {
-      return <Tile key={`${index}`} {...tile}></Tile>;
+    return getTiles().map((tile: TileModel) => {
+      return <Tile key={`${tile.id}`} {...tile}></Tile>;
     });
   };
 

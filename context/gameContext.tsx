@@ -6,7 +6,7 @@ import { createContext, PropsWithChildren, useReducer } from "react";
 
 export const GameContext = createContext({
   appendRandomTile: () => {},
-  gameState: initialState,
+  getTiles: () => [] as Tile[],
   dispatch: (_: any) => {},
 });
 
@@ -35,10 +35,13 @@ export default function GameProvider({ children }: PropsWithChildren) {
         position: emptyCells[cellIndex],
         value: 2,
       };
-
       dispatch({ type: "create_tile", tile: newTile });
     }
   };
 
-  return <GameContext.Provider value={{ appendRandomTile, gameState, dispatch }}>{children}</GameContext.Provider>;
+  const getTiles = () => {
+    return gameState.tilesById.map((tileId: string) => gameState.tiles[tileId]);
+  };
+
+  return <GameContext.Provider value={{ appendRandomTile, getTiles, dispatch }}>{children}</GameContext.Provider>;
 }
