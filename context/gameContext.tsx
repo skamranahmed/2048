@@ -5,7 +5,7 @@ import { isNil } from "lodash";
 import { createContext, PropsWithChildren, useEffect, useReducer } from "react";
 
 export const GameContext = createContext({
-  appendRandomTile: () => {},
+  score: 0,
   getTiles: () => [] as Tile[],
   dispatch: (_: any) => {},
 });
@@ -52,5 +52,9 @@ export default function GameProvider({ children }: PropsWithChildren) {
     }
   }, [gameState.hasChanged]);
 
-  return <GameContext.Provider value={{ appendRandomTile, getTiles, dispatch }}>{children}</GameContext.Provider>;
+  return (
+    <GameContext.Provider value={{ score: gameState.score, getTiles, dispatch }}>
+      {children}
+    </GameContext.Provider>
+  );
 }

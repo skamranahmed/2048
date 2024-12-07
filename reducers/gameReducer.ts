@@ -3,7 +3,14 @@ import { Tile, TileMap } from "@/models/tile";
 import { flattenDeep, has, isEqual, isNil } from "lodash";
 import { uid } from "uid";
 
-type State = { board: string[][]; tiles: TileMap; tilesById: string[]; hasChanged: boolean };
+type State = {
+  board: string[][];
+  tiles: TileMap;
+  tilesById: string[];
+  hasChanged: boolean;
+  score: number;
+};
+
 type Action =
   | { type: "create_tile"; tile: Tile }
   | { type: "move_up" }
@@ -22,7 +29,13 @@ function createBoard() {
   return board;
 }
 
-export const initialState: State = { board: createBoard(), tiles: {}, tilesById: [], hasChanged: false };
+export const initialState: State = {
+  board: createBoard(),
+  tiles: {},
+  tilesById: [],
+  hasChanged: false,
+  score: 0,
+};
 
 export default function gameReducer(state: State = initialState, action: Action) {
   switch (action.type) {
@@ -74,6 +87,7 @@ export default function gameReducer(state: State = initialState, action: Action)
       const newBoard = createBoard();
       const newTiles: TileMap = {};
       let hasChanged = false;
+      let { score } = state;
 
       for (let x = 0; x < tileCountPerDimension; x++) {
         let newY = 0; // top most
@@ -87,6 +101,8 @@ export default function gameReducer(state: State = initialState, action: Action)
           if (!isNil(tileId)) {
             if (previousTile?.value === currentTile.value) {
               // both of these tiles need to be stacked on top of each other
+
+              score += previousTile.value * 2;
 
               newTiles[previousTile.id as string] = {
                 ...previousTile,
@@ -125,6 +141,7 @@ export default function gameReducer(state: State = initialState, action: Action)
         board: newBoard,
         tiles: newTiles,
         hasChanged: hasChanged,
+        score: score,
       };
     }
 
@@ -132,6 +149,7 @@ export default function gameReducer(state: State = initialState, action: Action)
       const newBoard = createBoard();
       const newTiles: TileMap = {};
       let hasChanged = false;
+      let { score } = state;
 
       for (let x = 0; x < tileCountPerDimension; x++) {
         let newY = tileCountPerDimension - 1; // bottom most
@@ -145,6 +163,8 @@ export default function gameReducer(state: State = initialState, action: Action)
           if (!isNil(tileId)) {
             if (previousTile?.value === currentTile.value) {
               // both of these tiles need to be stacked on top of each other
+
+              score += previousTile.value * 2;
 
               newTiles[previousTile.id as string] = {
                 ...previousTile,
@@ -181,6 +201,7 @@ export default function gameReducer(state: State = initialState, action: Action)
         board: newBoard,
         tiles: newTiles,
         hasChanged: hasChanged,
+        score: score,
       };
     }
 
@@ -188,6 +209,7 @@ export default function gameReducer(state: State = initialState, action: Action)
       const newBoard = createBoard();
       const newTiles: TileMap = {};
       let hasChanged = false;
+      let { score } = state;
 
       for (let y = 0; y < tileCountPerDimension; y++) {
         let newX = 0; // left most
@@ -201,6 +223,8 @@ export default function gameReducer(state: State = initialState, action: Action)
           if (!isNil(tileId)) {
             if (previousTile?.value === currentTile.value) {
               // both of these tiles need to be stacked on top of each other
+
+              score += previousTile.value * 2;
 
               newTiles[previousTile.id as string] = {
                 ...previousTile,
@@ -237,6 +261,7 @@ export default function gameReducer(state: State = initialState, action: Action)
         board: newBoard,
         tiles: newTiles,
         hasChanged: hasChanged,
+        score: score,
       };
     }
 
@@ -244,6 +269,7 @@ export default function gameReducer(state: State = initialState, action: Action)
       const newBoard = createBoard();
       const newTiles: TileMap = {};
       let hasChanged = false;
+      let { score } = state;
 
       for (let y = 0; y < tileCountPerDimension; y++) {
         let newX = tileCountPerDimension - 1; // right most
@@ -257,6 +283,8 @@ export default function gameReducer(state: State = initialState, action: Action)
           if (!isNil(tileId)) {
             if (previousTile?.value === currentTile.value) {
               // both of these tiles need to be stacked on top of each other
+
+              score += previousTile.value * 2;
 
               newTiles[previousTile.id as string] = {
                 ...previousTile,
@@ -293,6 +321,7 @@ export default function gameReducer(state: State = initialState, action: Action)
         board: newBoard,
         tiles: newTiles,
         hasChanged: hasChanged,
+        score: score,
       };
     }
 
