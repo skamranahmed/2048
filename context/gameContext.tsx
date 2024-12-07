@@ -1,8 +1,8 @@
-import { tileCountPerDimension } from "@/constants";
+import { mergeAnimationDuration, tileCountPerDimension } from "@/constants";
 import { Tile } from "@/models/tile";
 import gameReducer, { initialState } from "@/reducers/gameReducer";
 import { isNil } from "lodash";
-import { createContext, PropsWithChildren, useReducer } from "react";
+import { createContext, PropsWithChildren, useEffect, useReducer } from "react";
 
 export const GameContext = createContext({
   appendRandomTile: () => {},
@@ -42,6 +42,15 @@ export default function GameProvider({ children }: PropsWithChildren) {
   const getTiles = () => {
     return gameState.tilesById.map((tileId: string) => gameState.tiles[tileId]);
   };
+
+  useEffect(() => {
+    if (gameState.hasChanged) {
+      setTimeout(() => {
+        dispatch({ type: "clean_up" });
+        appendRandomTile();
+      }, mergeAnimationDuration);
+    }
+  }, [gameState.hasChanged]);
 
   return <GameContext.Provider value={{ appendRandomTile, getTiles, dispatch }}>{children}</GameContext.Provider>;
 }

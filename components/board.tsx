@@ -2,11 +2,10 @@ import styles from "@/styles/board.module.css";
 import Tile from "./tile";
 import { useCallback, useContext, useEffect, useRef } from "react";
 import { Tile as TileModel } from "@/models/tile";
-import { mergeAnimationDuration } from "@/constants";
 import { GameContext } from "@/context/gameContext";
 
 export default function Board() {
-  const { appendRandomTile, getTiles, dispatch } = useContext(GameContext);
+  const { getTiles, dispatch } = useContext(GameContext);
   const initialized = useRef(false);
 
   const handleKeyDown = useCallback(
@@ -27,13 +26,8 @@ export default function Board() {
           dispatch({ type: "move_right" });
           break;
       }
-
-      setTimeout(() => {
-        dispatch({ type: "clean_up" });
-        appendRandomTile();
-      }, mergeAnimationDuration);
     },
-    [appendRandomTile, dispatch],
+    [dispatch],
   );
 
   const renderGrid = () => {
@@ -66,7 +60,7 @@ export default function Board() {
       dispatch({
         type: "create_tile",
         tile: {
-          position: [1, 1],
+          position: [0, 2],
           value: 2,
         },
       });
