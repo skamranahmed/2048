@@ -6,7 +6,7 @@ import { GameContext } from "@/context/gameContext";
 import MobileSwiper, { SwipeInput } from "./mobileSwiper";
 
 export default function Board() {
-  const { getTiles, dispatch } = useContext(GameContext);
+  const { getTiles, moveTiles, startGame } = useContext(GameContext);
   const initialized = useRef(false);
 
   const handleKeyDown = useCallback(
@@ -15,39 +15,39 @@ export default function Board() {
 
       switch (e.code) {
         case "ArrowUp":
-          dispatch({ type: "move_up" });
+          moveTiles("move_up");
           break;
         case "ArrowDown":
-          dispatch({ type: "move_down" });
+          moveTiles("move_down");
           break;
         case "ArrowLeft":
-          dispatch({ type: "move_left" });
+          moveTiles("move_left");
           break;
         case "ArrowRight":
-          dispatch({ type: "move_right" });
+          moveTiles("move_right");
           break;
       }
     },
-    [dispatch],
+    [moveTiles],
   );
 
   const handleSwipe = useCallback(
     ({ deltaX, deltaY }: SwipeInput) => {
       if (Math.abs(deltaX) > Math.abs(deltaY)) {
         if (deltaX > 0) {
-          dispatch({ type: "move_right" });
+          moveTiles("move_right");
         } else {
-          dispatch({ type: "move_left" });
+          moveTiles("move_left");
         }
       } else {
         if (deltaY > 0) {
-          dispatch({ type: "move_down" });
+          moveTiles("move_down");
         } else {
-          dispatch({ type: "move_up" });
+          moveTiles("move_up");
         }
       }
     },
-    [dispatch],
+    [moveTiles],
   );
 
   const renderGrid = () => {
@@ -69,25 +69,11 @@ export default function Board() {
 
   useEffect(() => {
     if (initialized.current === false) {
-      dispatch({
-        type: "create_tile",
-        tile: {
-          position: [0, 1],
-          value: 2,
-        },
-      });
-
-      dispatch({
-        type: "create_tile",
-        tile: {
-          position: [0, 2],
-          value: 2,
-        },
-      });
+      startGame();
 
       initialized.current = true;
     }
-  }, [dispatch]);
+  }, [startGame]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
