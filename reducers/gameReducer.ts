@@ -3,12 +3,15 @@ import { Tile, TileMap } from "@/models/tile";
 import { flattenDeep, has, isEqual, isNil } from "lodash";
 import { uid } from "uid";
 
+type GameStatus = "ongoing" | "won";
+
 type State = {
   board: string[][];
   tiles: TileMap;
   tilesById: string[];
   hasChanged: boolean;
   score: number;
+  status: GameStatus;
 };
 
 type Action =
@@ -17,7 +20,9 @@ type Action =
   | { type: "move_down" }
   | { type: "move_left" }
   | { type: "move_right" }
-  | { type: "clean_up" };
+  | { type: "clean_up" }
+  | { type: "update_status"; status: GameStatus }
+  | { type: "reset_game" };
 
 function createBoard() {
   const board: string[][] = [];
@@ -35,10 +40,22 @@ export const initialState: State = {
   tilesById: [],
   hasChanged: false,
   score: 0,
+  status: "ongoing",
 };
 
 export default function gameReducer(state: State = initialState, action: Action) {
   switch (action.type) {
+    case "reset_game": {
+      return initialState;
+    }
+
+    case "update_status": {
+      return {
+        ...state,
+        status: action.status,
+      };
+    }
+
     case "clean_up": {
       const flattenBoard = flattenDeep(state.board);
       const newTiles: TileMap = flattenBoard.reduce((result, tileId: string) => {
