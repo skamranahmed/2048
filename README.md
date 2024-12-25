@@ -2,6 +2,10 @@
 
 The web version of the classic 2048 game. The game is built using React and NextJS.
 
+### 🌐 Live Demo
+
+You can play the game at [https://2048-dtr.pages.dev](https://2048-dtr.pages.dev)
+
 ### 🚀 Getting Started
 
 To get started with the project, follow these steps:
