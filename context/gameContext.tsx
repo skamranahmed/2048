@@ -67,7 +67,7 @@ export default function GameProvider({ children }: PropsWithChildren) {
       type: "create_tile",
       tile: {
         position: [0, 1],
-        value: 1024,
+        value: 2,
       },
     });
 
@@ -75,7 +75,7 @@ export default function GameProvider({ children }: PropsWithChildren) {
       type: "create_tile",
       tile: {
         position: [0, 2],
-        value: 1024,
+        value: 2,
       },
     });
   };
@@ -86,7 +86,29 @@ export default function GameProvider({ children }: PropsWithChildren) {
 
     if (isWon) {
       dispatch({ type: "update_status", status: "won" });
+      return;
     }
+
+    const { board, tiles } = gameState;
+
+    const maxIndex = tileCountPerDimension - 1;
+    for (let x = 0; x < maxIndex; x++) {
+      for (let y = 0; y < maxIndex; y++) {
+        if (isNil(board[x][y]) || isNil(board[x + 1][y]) || isNil(board[x][y + 1])) {
+          return;
+        }
+
+        if (tiles[board[x][y]].value === tiles[board[x + 1][y]].value) {
+          return;
+        }
+
+        if (tiles[board[x][y]].value === tiles[board[x][y + 1]].value) {
+          return;
+        }
+      }
+    }
+
+    dispatch({ type: "update_status", status: "lost" });
   };
 
   useEffect(() => {
@@ -94,8 +116,13 @@ export default function GameProvider({ children }: PropsWithChildren) {
       setTimeout(() => {
         dispatch({ type: "clean_up" });
         appendRandomTile();
-        checkGameState();
       }, mergeAnimationDuration);
+    }
+  }, [gameState.hasChanged]);
+
+  useEffect(() => {
+    if (!gameState.hasChanged) {
+      checkGameState();
     }
   }, [gameState.hasChanged]);
 

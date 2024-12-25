@@ -33,6 +33,6 @@
   font-size: calc(var(--pixel-size) * 2);
   line-height: calc(var(--pixel-size) * 4);
   font-weight: bold;
-  color: var(--tile-text-color);
+  color: white;
   cursor: pointer;
 }

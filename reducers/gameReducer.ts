@@ -3,7 +3,7 @@ import { Tile, TileMap } from "@/models/tile";
 import { flattenDeep, has, isEqual, isNil } from "lodash";
 import { uid } from "uid";
 
-type GameStatus = "ongoing" | "won";
+type GameStatus = "ongoing" | "won" | "lost";
 
 type State = {
   board: string[][];
