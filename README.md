@@ -1,40 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+## ✨ 2048 Game
 
-## Getting Started
+The web version of the classic 2048 game. The game is built using React and NextJS.
 
-First, run the development server:
+### 🚀 Getting Started
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+To get started with the project, follow these steps:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/skamranahmed/2048
+   cd 2048
+   ```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+2. Install the dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+3. Run the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the game in action.
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 👨‍💻 Project Structure
 
-## Learn More
+- `pages/`: Contains the main application pages.
 
-To learn more about Next.js, take a look at the following resources:
+- `components/`: Contains reusable components such as the game board, tiles, and score display.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+- `context/`: Contains the game context for managing state and actions.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `reducers/`: Contains the game reducer for handling game logic.
 
-## Deploy on Vercel
+- `models/`: Defines TypeScript models for tiles and game state.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `styles/`: Contains global and component-specific styles.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+- `__tests__/`: Contains tests for component and hooks.
+
+
+### 📝 License
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/)
